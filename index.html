@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Morphic Quiz App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Splash Screen -->
+        <div id="splash-screen" class="screen active">
+            <div class="glass-panel splash-panel">
+                <div class="logo">
+                    <h1>QuizMaster</h1>
+                    <p>Advanced Glass Morphic Quiz Experience</p>
+                </div>
+                <div class="loading-container">
+                    <div class="loading-bar">
+                        <div class="loading-progress" id="loading-progress"></div>
+                    </div>
+                    <div class="loading-text">
+                        <span id="loading-percentage">0%</span>
+                        <span class="loading-status" id="loading-status">Initializing...</span>
+                    </div>
+                </div>
+                <div class="rotating-loader"></div>
+            </div>
+        </div>
+
+        <!-- Category Selection Screen -->
+        <div id="category-screen" class="screen">
+            <div class="glass-panel main-panel">
+                <div class="screen-header">
+                    <h2>Choose Your Category</h2>
+                    <p>Select a quiz category to begin your challenge</p>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="General Knowledge">
+                        <div class="category-icon">🧠</div>
+                        <h3>General Knowledge</h3>
+                        <p>Test your overall knowledge</p>
+                        <div class="category-stats">
+                            <span class="stat">12 Questions</span>
+                            <span class="stat">3 Levels</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="Science">
+                        <div class="category-icon">🔬</div>
+                        <h3>Science</h3>
+                        <p>Explore scientific concepts</p>
+                        <div class="category-stats">
+                            <span class="stat">8 Questions</span>
+                            <span class="stat">3 Levels</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="Technology">
+                        <div class="category-icon">💻</div>
+                        <h3>Technology</h3>
+                        <p>Digital world knowledge</p>
+                        <div class="category-stats">
+                            <span class="stat">6 Questions</span>
+                            <span class="stat">3 Levels</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="History">
+                        <div class="category-icon">📜</div>
+                        <h3>History</h3>
+                        <p>Journey through time</p>
+                        <div class="category-stats">
+                            <span class="stat">4 Questions</span>
+                            <span class="stat">3 Levels</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="Sports">
+                        <div class="category-icon">⚽</div>
+                        <h3>Sports</h3>
+                        <p>Athletic achievements</p>
+                        <div class="category-stats">
+                            <span class="stat">4 Questions</span>
+                            <span class="stat">3 Levels</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn--secondary" id="settings-btn">⚙️ Settings</button>
+                    <button class="btn btn--secondary" id="leaderboard-btn">🏆 Leaderboard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection Screen -->
+        <div id="difficulty-screen" class="screen">
+            <div class="glass-panel main-panel">
+                <div class="screen-header">
+                    <h2>Select Difficulty</h2>
+                    <p id="selected-category-name">Category Selected</p>
+                </div>
+                <div class="difficulty-grid">
+                    <div class="difficulty-card" data-difficulty="easy">
+                        <div class="difficulty-icon">🟢</div>
+                        <h3>Easy</h3>
+                        <p>Perfect for beginners</p>
+                        <div class="difficulty-details">
+                            <span>⏰ 15-20 sec per question</span>
+                            <span>💡 3 hints available</span>
+                        </div>
+                    </div>
+                    <div class="difficulty-card" data-difficulty="medium">
+                        <div class="difficulty-icon">🟡</div>
+                        <h3>Medium</h3>
+                        <p>Moderate challenge</p>
+                        <div class="difficulty-details">
+                            <span>⏰ 20-25 sec per question</span>
+                            <span>💡 2 hints available</span>
+                        </div>
+                    </div>
+                    <div class="difficulty-card" data-difficulty="hard">
+                        <div class="difficulty-icon">🔴</div>
+                        <h3>Hard</h3>
+                        <p>For quiz masters</p>
+                        <div class="difficulty-details">
+                            <span>⏰ 25-30 sec per question</span>
+                            <span>💡 1 hint available</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn--outline" id="back-to-categories">← Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="glass-panel quiz-panel">
+                <div class="quiz-header">
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="quiz-progress"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">Question 1 of 5</span>
+                    </div>
+                    <div class="quiz-score">
+                        <span id="current-score">Score: 0</span>
+                        <span id="streak-counter">Streak: 0</span>
+                    </div>
+                </div>
+                
+                <div class="timer-container">
+                    <div class="timer-circle">
+                        <div class="timer-fill" id="timer-fill"></div>
+                        <span class="timer-text" id="timer-text">30</span>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <h3 class="question-text" id="question-text">Loading question...</h3>
+                    <div class="answers-grid" id="answers-grid">
+                        <!-- Answers will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="quiz-controls">
+                    <button class="btn btn--secondary" id="hint-btn" disabled>
+                        💡 Hint (<span id="hints-remaining">3</span>)
+                    </button>
+                    <button class="btn btn--outline" id="quit-quiz">Quit Quiz</button>
+                </div>
+
+                <div class="answer-feedback" id="answer-feedback">
+                    <div class="feedback-content">
+                        <div class="feedback-icon" id="feedback-icon">✓</div>
+                        <div class="feedback-text" id="feedback-text">Correct!</div>
+                        <div class="feedback-explanation" id="feedback-explanation">Great job!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="glass-panel results-panel">
+                <div class="results-header">
+                    <div class="results-icon" id="results-icon">🎉</div>
+                    <h2 id="results-title">Quiz Complete!</h2>
+                    <p id="results-subtitle">Here's how you performed</p>
+                </div>
+
+                <div class="results-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="final-score">0</div>
+                        <div class="stat-label">Final Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="correct-answers">0/0</div>
+                        <div class="stat-label">Correct Answers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="time-taken">0:00</div>
+                        <div class="stat-label">Time Taken</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="accuracy-percentage">0%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                </div>
+
+                <div class="achievements-section" id="achievements-section">
+                    <h3>Achievements Unlocked</h3>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- Achievements will be dynamically added -->
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn--primary" id="play-again">Play Again</button>
+                    <button class="btn btn--secondary" id="change-category">Change Category</button>
+                    <button class="btn btn--outline" id="view-leaderboard">View Leaderboard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settings-screen" class="screen">
+            <div class="glass-panel settings-panel">
+                <div class="screen-header">
+                    <h2>Settings</h2>
+                    <p>Customize your quiz experience</p>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span>Sound Effects</span>
+                            <input type="checkbox" id="sound-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span>Animations</span>
+                            <input type="checkbox" id="animations-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="form-label">Default Difficulty</label>
+                        <select class="form-control" id="default-difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="screen-footer">
+                    <button class="btn btn--primary" id="save-settings">Save Settings</button>
+                    <button class="btn btn--outline" id="close-settings">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Screen -->
+        <div id="leaderboard-screen" class="screen">
+            <div class="glass-panel leaderboard-panel">
+                <div class="screen-header">
+                    <h2>🏆 Leaderboard</h2>
+                    <p>Top quiz performers</p>
+                </div>
+
+                <div class="leaderboard-list" id="leaderboard-list">
+                    <!-- Leaderboard entries will be dynamically added -->
+                </div>
+
+                <div class="screen-footer">
+                    <button class="btn btn--primary" id="close-leaderboard">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Celebration Particles -->
+    <div class="particles-container" id="particles-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
